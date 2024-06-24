@@ -48,15 +48,26 @@ public class Menu {
 						9 - Fechar aplicação
 
 					%s-----------------------------------------------------%s
+<<<<<<< HEAD
 					Entre com a opção desejada:""", Colors.TEXT_GREEN_BOLD, Colors.TEXT_WHITE_BOLD,
 					Colors.TEXT_GREEN_BOLD, Colors.TEXT_RESET);
 			try {
 				option = scanner.nextInt();
 			} catch (InputMismatchException e) {
+=======
+					Entre com a opção desejada:""", Colors.TEXT_GREEN_BOLD, Colors.TEXT_WHITE_BOLD, Colors.TEXT_GREEN_BOLD, Colors.TEXT_RESET);
+			try {
+				option = scanner.nextInt();
+			} catch (InputMismatchException e){
+>>>>>>> 8a5d81821778ab6dfd78d31bf5b8afd70d1d97c8
 				System.out.println("\nDigite valores inteiros!");
 				scanner.nextLine();
 				option = 0;
 			}
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 8a5d81821778ab6dfd78d31bf5b8afd70d1d97c8
 
 			if (option == 9) {
 				System.out.println("\n\nJavabank - Melhor banco para se estressar");
