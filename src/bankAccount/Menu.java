@@ -1,5 +1,6 @@
 package bankAccount;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import bankAccount.model.Account;
 import bankAccount.model.AccountCurrent;
@@ -51,8 +52,14 @@ public class Menu {
 
 					%s-----------------------------------------------------%s
 					Entre com a opção desejada:""", Colors.TEXT_GREEN_BOLD, Colors.TEXT_WHITE_BOLD, Colors.TEXT_GREEN_BOLD, Colors.TEXT_RESET);
+			try {
+				option = scanner.nextInt();
+			} catch (InputMismatchException e){
+				System.out.println("\nDigite valores inteiros!");
+				scanner.nextLine();
+				option = 0;
+			}
 			
-			option = scanner.nextInt();
 
 			if (option == 9) {
 				System.out.println("\n\nJavabank - Melhor banco para se estressar");
