@@ -2,6 +2,8 @@ package bankAccount;
 
 import java.util.Scanner;
 import bankAccount.model.Account;
+import bankAccount.model.AccountCurrent;
+import bankAccount.model.AccountSavings;
 import bankAccount.util.Colors;
 
 
@@ -9,19 +11,20 @@ public class Menu {
 
 	public static void main(String[] args) {
 		
-		Account user1 = new Account(1, 2, 1, "Kelly", 10000.0f);
+		AccountSavings user1 = new AccountSavings(1, 2, 1, "Kelly", 10000.0f, 24);
 		user1.viewAccountDetails();
 		user1.withdraw(200.0f);
 		user1.viewAccountDetails();
 		user1.deposit(2000.0f);
 		user1.viewAccountDetails();
 		
-		Account user2 = new Account(2, 1, 2, "Luis", 20000.0f);
+		AccountCurrent user2 = new AccountCurrent(2, 1, 2, "Luis", 20000.0f, 300.0f);
 		user2.viewAccountDetails();
 		user2.withdraw(100.0f);
 		user2.viewAccountDetails();
 		user2.deposit(1000.0f);
 		user2.viewAccountDetails();
+		  
 		
 		Scanner scanner = new Scanner(System.in);
 		int option;
