@@ -1,8 +1,10 @@
 package bankAccount;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import bankAccount.model.Account;
+
+import bankAccount.contoller.bankAccountController;
 import bankAccount.model.AccountCurrent;
 import bankAccount.model.AccountSavings;
 import bankAccount.util.Colors;
@@ -11,22 +13,12 @@ public class Menu {
 
 	public static void main(String[] args) {
 
-		AccountSavings user1 = new AccountSavings(1, 2, 1, "Kelly", 10000.0f, 24);
-		user1.viewAccountDetails();
-		user1.withdraw(200.0f);
-		user1.viewAccountDetails();
-		user1.deposit(2000.0f);
-		user1.viewAccountDetails();
-
-		AccountCurrent user2 = new AccountCurrent(2, 1, 2, "Luis", 20000.0f, 300.0f);
-		user2.viewAccountDetails();
-		user2.withdraw(100.0f);
-		user2.viewAccountDetails();
-		user2.deposit(1000.0f);
-		user2.viewAccountDetails();
+		bankAccountController accounts = new bankAccountController();
 
 		Scanner scanner = new Scanner(System.in);
-		int option;
+		int option, number, agency, type, birthday;
+		String holderName;
+		float balance, creditLimit;
 
 		while (true) {
 			System.out.printf("""
@@ -48,30 +40,19 @@ public class Menu {
 						9 - Fechar aplicação
 
 					%s-----------------------------------------------------%s
-<<<<<<< HEAD
 					Entre com a opção desejada:""", Colors.TEXT_GREEN_BOLD, Colors.TEXT_WHITE_BOLD,
 					Colors.TEXT_GREEN_BOLD, Colors.TEXT_RESET);
 			try {
 				option = scanner.nextInt();
 			} catch (InputMismatchException e) {
-=======
-					Entre com a opção desejada:""", Colors.TEXT_GREEN_BOLD, Colors.TEXT_WHITE_BOLD, Colors.TEXT_GREEN_BOLD, Colors.TEXT_RESET);
-			try {
-				option = scanner.nextInt();
-			} catch (InputMismatchException e){
->>>>>>> 8a5d81821778ab6dfd78d31bf5b8afd70d1d97c8
 				System.out.println("\nDigite valores inteiros!");
 				scanner.nextLine();
 				option = 0;
 			}
-<<<<<<< HEAD
-=======
-			
->>>>>>> 8a5d81821778ab6dfd78d31bf5b8afd70d1d97c8
 
 			if (option == 9) {
-				System.out.println("\n\nJavabank - Melhor banco para se estressar");
-				System.out.println("---------------------------------------------");
+				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nJavabank - Melhor banco para se estressar");
+				System.out.println("---------------------------------------------" + Colors.TEXT_RESET);
 				System.out.println("Sair da aplicação");
 				about();
 				scanner.close();
@@ -81,52 +62,148 @@ public class Menu {
 			switch (option) {
 			case 1:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nCriar Conta");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
+				System.out.printf("\nDigite o Numero da Agência: ");
+				agency = scanner.nextInt();
+				System.out.printf("\nDigite o Nome do Titular: ");
+				scanner.skip("\\R?");
+				holderName = scanner.nextLine();
 
+				do {
+					System.out.printf("""
+							\n\nLista Tipos de Conta:
+							---------------------------------------------
+							1 - Conta Corrente
+							2 - Conta Poupança
+
+							Digite o código do tipo de Conta:  """);
+					type = scanner.nextInt();
+				} while (type != 1 && type != 2);
+
+				System.out.printf("\nDigite o Saldo da Conta R$");
+				balance = scanner.nextFloat();
+
+				switch (type) {
+				case 1 -> {
+					System.out.printf("\nDigite o Limite de Crédito R$");
+					creditLimit = scanner.nextFloat();
+					accounts.create(
+							new AccountCurrent(accounts.newNumber(), agency, type, holderName, balance, creditLimit));
+				}
+				case 2 -> {
+					System.out.printf("\nDigite o dia do Aniversario da Conta: ");
+					birthday = scanner.nextInt();
+					accounts.create(
+							new AccountSavings(accounts.newNumber(), agency, type, holderName, balance, birthday));
+				}
+				}
+
+				keyPress();
 				break;
 			case 2:
-				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nListar");
-				System.out.println("---------------------------------------------");
+				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nListar todas as Contas");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
+				accounts.listAll();
 
+				keyPress();
 				break;
 			case 3:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nConsulta por numero");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
+				System.out.printf("Digite o número da Conta: ");
+				number = scanner.nextInt();
+				accounts.findByNumber(number);
 
+				keyPress();
 				break;
 			case 4:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nAtualizar Conta");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
+				System.out.println("Digite o número da conta: ");
+				number = scanner.nextInt();
+				var searchAccount = accounts.searchInColletion(number);
+
+				if (searchAccount != null) {
+					System.out.printf("\nDigite o Numero da Agência: ");
+					agency = scanner.nextInt();
+					System.out.printf("\nDigite o Nome do Titular: ");
+					scanner.skip("\\R?");
+					holderName = scanner.nextLine();
+
+					do {
+						System.out.printf("""
+								\n\nLista Tipos de Conta:
+								---------------------------------------------
+								1 - Conta Corrente
+								2 - Conta Poupança
+
+								Digite o código do tipo de Conta:  """);
+						type = scanner.nextInt();
+					} while (type != 1 && type != 2);
+
+					System.out.printf("\nDigite o Saldo da Conta R$");
+					balance = scanner.nextFloat();
+
+					switch (type) {
+					case 1 -> {
+						System.out.printf("\nDigite o Limite de Crédito R$");
+						creditLimit = scanner.nextFloat();
+						
+						accounts.update(new AccountCurrent(number, agency, type, holderName, balance, creditLimit));
+					}
+					case 2 -> {
+						System.out.println("Digite o dia do Aniversario da Conta: ");
+						birthday = scanner.nextInt();
+						
+						accounts.update(new AccountSavings(number, agency, type, holderName, balance, birthday));
+					}
+					default -> {
+						System.out.println("Tipo de conta inválido!");
+					}
+					}
+				} else {
+					System.out.println("\nA Conta não foi encontrada!");
+				}
+
+				keyPress();
 				break;
 			case 5:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nApagar Conta");
-				System.out.println("---------------------------------------------");
-
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
+				number = scanner.nextInt();
+				accounts.delete(number);
+				
+				keyPress();
 				break;
 			case 6:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nSaque");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
+				keyPress();
 				break;
 			case 7:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nDepósito");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
+				keyPress();
 				break;
 			case 8:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nTransferência");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
+				keyPress();
 				break;
 			default:
 				System.out.println(Colors.TEXT_RED_BOLD + "\n\nOpção Inválida!");
-				System.out.println("---------------------------------------------");
+				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
+				keyPress();
 				break;
 			}
 
 		}
+
 	}
 
 	public static void about() {
@@ -140,11 +217,10 @@ public class Menu {
 	public static void keyPress() {
 		try {
 
-			System.out.println(C.TEXT_RESET + "\n\nPressione Enter para Continuar...");
+			System.out.println(Colors.TEXT_RESET + "\n\nPressione Enter para Continuar...");
 			System.in.read();
 
 		} catch (IOException e) {
-
 			System.out.println("Você pressionou uma tecla diferente de enter!");
 
 		}

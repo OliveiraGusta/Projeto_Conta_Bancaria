@@ -4,14 +4,14 @@ public abstract class  Account {
 	private int number;
 	private int agency;
 	private int type;
-	private String holder;
+	private String holderName;
 	private float balance;
 
-	public Account(int number, int agency, int type, String holder, float balance) {
+	public Account(int number, int agency, int type, String holderName, float balance) {
 		this.number = number;
 		this.agency = agency;
 		this.type = type;
-		this.holder = holder;
+		this.holderName = holderName;
 		this.balance = balance;
 	}
 
@@ -39,12 +39,12 @@ public abstract class  Account {
 		this.type = type;
 	}
 
-	public String getHolder() {
-		return holder;
+	public String getHolderName() {
+		return holderName;
 	}
 
-	public void setHolder(String holder) {
-		this.holder = holder;
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
 	}
 
 	public float getBalance() {
@@ -87,6 +87,6 @@ public abstract class  Account {
 				Saldo: R$%.2f
 				Agência: %d
 				Tipo da Conta: %s
-				""", this.holder, this.number, this.balance, this.agency, type);
+				""", this.holderName, this.number, this.balance, this.agency, type);
 	}
 }

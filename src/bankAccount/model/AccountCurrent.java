@@ -3,8 +3,8 @@ package bankAccount.model;
 public class AccountCurrent extends Account {
 	private float creditLimit;
 
-	public AccountCurrent(int number, int agency, int type, String holder, float balance, float creditLimit) {
-		super(number, agency, type, holder, balance);
+	public AccountCurrent(int number, int agency, int type, String holderName, float balance, float creditLimit) {
+		super(number, agency, type, holderName, balance);
 		this.creditLimit = creditLimit;
 	}
 
