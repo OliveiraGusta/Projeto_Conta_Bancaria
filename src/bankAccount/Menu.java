@@ -16,9 +16,9 @@ public class Menu {
 		bankAccountController accounts = new bankAccountController();
 
 		Scanner scanner = new Scanner(System.in);
-		int option, number, agency, type, birthday;
+		int option, number, agency, type, birthday, numberRecipient;
 		String holderName;
-		float balance, creditLimit;
+		float balance, creditLimit, value;
 
 		while (true) {
 			System.out.printf("""
@@ -120,7 +120,7 @@ public class Menu {
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nAtualizar Conta");
 				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
 
-				System.out.println("Digite o número da conta: ");
+				System.out.printf("Digite o número da conta: ");
 				number = scanner.nextInt();
 				var searchAccount = accounts.searchInColletion(number);
 
@@ -171,6 +171,7 @@ public class Menu {
 			case 5:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nApagar Conta");
 				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
+				System.out.printf("Digite o Número da Conta: ");
 				number = scanner.nextInt();
 				accounts.delete(number);
 				
@@ -179,19 +180,45 @@ public class Menu {
 			case 6:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nSaque");
 				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
-
+				System.out.printf("Digite o Número da Conta: ");
+				number = scanner.nextInt();
+				
+				do {
+					System.out.printf("\nDigite o Valor do Saque R$");
+					value = scanner.nextFloat();
+				} while( value <= 0 );
+					
+				accounts.withdraw(number, value);
 				keyPress();
 				break;
 			case 7:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nDepósito");
 				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
-
+				System.out.printf("Digite o Número da Conta: ");
+				number = scanner.nextInt();
+				
+				do {
+					System.out.printf("\nDigite o Valor do Depósito R$");
+					value = scanner.nextFloat();
+				} while( value <= 0 );
+					
+				accounts.deposit(number, value);
 				keyPress();
 				break;
 			case 8:
 				System.out.println(Colors.TEXT_WHITE_BOLD + "\n\nTransferência");
 				System.out.println("---------------------------------------------"+ Colors.TEXT_RESET);
-
+				System.out.printf("Digite o Número da Conta de Origem: ");
+				number = scanner.nextInt();
+				System.out.printf("\nDigite o Número da Conta de Destino: ");
+				numberRecipient = scanner.nextInt();
+	
+				do {
+					System.out.printf("\nDigite o Valor do Transferência R$");
+					value = scanner.nextFloat();
+				} while( value <= 0 );
+					
+				accounts.transfer(number, numberRecipient, value);
 				keyPress();
 				break;
 			default:
